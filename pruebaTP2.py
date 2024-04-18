@@ -6,7 +6,10 @@ from tkinter import messagebox
 from tkinter import ttk
 import matplotlib.pyplot as plt
 import tkinter.filedialog
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
+datos_pdf = []
 
 def generar_numeros_aleatorios(n):
     numeros_aleatorios = []
@@ -17,12 +20,11 @@ def generar_numeros_aleatorios(n):
     print("rnd", numeros_aleatorios)
     return numeros_aleatorios
 
-
 def generar_distribucion():
     distribucion = combo_distribucion.get()
     tamaño_muestra = int(entry_tamaño_muestra.get())
     intervalos = int(entry_intervalos.get())
-
+    global datos_pdf
     if distribucion == "Uniforme":
         rnd = generar_numeros_aleatorios(tamaño_muestra)
         a = float(entry_a.get())
@@ -61,7 +63,7 @@ def generar_distribucion():
             datos.append(N1)
             datos.append(N2)
         print("NORMAL", datos)
-
+        datos_pdf = datos
     histograma_frecuencias(datos, intervalos)
 
 
@@ -90,7 +92,6 @@ def histograma_frecuencias(datos, intervalos):
 
     plt.show()
 
-
 def mostrar_datos(datos):
     ventana_datos = tk.Toplevel(ventana)
     ventana_datos.title("Variables aleatorias según distribución")
@@ -106,7 +107,6 @@ def mostrar_datos(datos):
     btn_guardar = tk.Button(ventana_datos, text="Guardar", command=lambda: guardar_datos(datos))
     btn_guardar.pack()
 
-
 def guardar_datos(datos):
     archivo_datos = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".txt")
     if archivo_datos is None:
@@ -115,6 +115,21 @@ def guardar_datos(datos):
         archivo_datos.write(f"{dato}\n")
     archivo_datos.close()
 
+def guardar_datos_pdf(datos):
+    archivo_pdf = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".pdf")
+    if archivo_pdf is None:
+        return
+
+    c = canvas.Canvas(archivo_pdf.name, pagesize=letter)
+    c.drawString(100, 750, "Valores Generados:")
+    y = 730
+    for dato in datos:
+        c.drawString(100, y, str(dato))
+        y -= 15
+
+    c.save()
+    archivo_pdf.close()
+    messagebox.showinfo("Guardado", "Los datos se han guardado en formato PDF correctamente.")
 
 def actualizar_campos(*args):
     distribucion = combo_distribucion.get()
@@ -133,7 +148,6 @@ def actualizar_campos(*args):
     elif distribucion == "Normal":
         entry_μ.config(state="normal")
         entry_σ.config(state="normal")
-
 
 # Crear ventana principal
 ventana = tk.Tk()
@@ -191,6 +205,10 @@ entry_σ.grid(row=7, column=1, padx=5, pady=5)
 btn_generar.grid(row=8, column=0, columnspan=2, padx=5, pady=5)
 btn_cerrar = tk.Button(ventana, text="Cerrar", command=ventana.quit)
 btn_cerrar.grid(row=9, column=0, columnspan=2, padx=5, pady=5)
+
+# Botón para guardar en PDF
+btn_guardar_pdf = tk.Button(ventana, text="Guardar en PDF", command=lambda: guardar_datos_pdf(datos_pdf))
+btn_guardar_pdf.grid(row=10, column=0, columnspan=2, padx=5, pady=5)
 
 # Iniciar la ventana
 ventana.mainloop()
