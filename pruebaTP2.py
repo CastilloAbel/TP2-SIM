@@ -131,6 +131,27 @@ def cerrar_aplicacion(): #Define una función llamada cerrar_aplicacion que cier
     ventana.quit()
     ventana.destroy()
 
+def seleccionar_dist(event):
+    seleccion = combo_distribucion.get()
+
+    if seleccion == "Uniforme":
+        entry_a.config(state="normal")
+        entry_b.config(state="normal")
+        entry_λ.config(state="disabled")
+        entry_μ.config(state="disabled")
+        entry_σ.config(state="disabled")
+    elif seleccion == "Exponencial":
+        entry_a.config(state="disabled")
+        entry_b.config(state="disabled")
+        entry_λ.config(state="normal")
+        entry_μ.config(state="disabled")
+        entry_σ.config(state="disabled")
+    elif seleccion == "Normal":
+        entry_a.config(state="disabled")
+        entry_b.config(state="disabled")
+        entry_λ.config(state="disabled")
+        entry_μ.config(state="normal")
+        entry_σ.config(state="normal")
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 #MUESTRA DE DATOS Y INTERACION CON EL USUARIO
@@ -147,7 +168,7 @@ entry_intervalos = tk.Entry(ventana)
 
 lbl_distribucion = tk.Label(ventana, text="Distribución:")
 combo_distribucion = ttk.Combobox(ventana, values=["Uniforme", "Exponencial", "Normal"])
-
+combo_distribucion.bind("<<ComboboxSelected>>", seleccionar_dist)
 lbl_a = tk.Label(ventana, text="Valor de a:")
 entry_a = tk.Entry(ventana)
 lbl_b = tk.Label(ventana, text="Valor de b:")
