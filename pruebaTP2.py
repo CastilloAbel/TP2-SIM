@@ -34,7 +34,7 @@ def generar_distribucion():
 
         for i in rnd:
             x = np.around(a + i * (b - a), 4)
-            datos.append(x)
+            datos.append(round(x, 4))
         print("uniforme", datos)
 
     elif distribucion == "Exponencial":
@@ -45,7 +45,7 @@ def generar_distribucion():
 
         for i in rnd:
             x = (-1 / λ) * math.log((1 - i))
-            datos.append(x)
+            datos.append(round(x, 4))
         print("EXPONENCIAL", datos)
 
     elif distribucion == "Normal":
@@ -60,8 +60,8 @@ def generar_distribucion():
         for i, j in zip(rnd1, rnd2):
             N1 = math.sqrt(-2 * math.log(i)) * math.cos(2 * math.pi * j) * σ + μ
             N2 = math.sqrt(-2 * math.log(i)) * math.sin(2 * math.pi * j) * σ + μ
-            datos.append(N1)
-            datos.append(N2)
+            datos.append(round(N1, 4))
+            datos.append(round(N2, 4))
         print("NORMAL", datos)
         datos_pdf = datos
     histograma_frecuencias(datos, intervalos)
