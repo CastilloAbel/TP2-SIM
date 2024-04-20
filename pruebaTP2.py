@@ -8,8 +8,13 @@ import matplotlib.pyplot as plt
 import tkinter.filedialog
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+import re
 
 datos_pdf = []
+
+def validar_numeros(text):
+    # Esta función permite solo la entrada de números (enteros o flotantes)
+    return re.match(r'^[0-9]*\.?[0-9]*$', text) is not None
 
 def uniforme(a:int, b:int, rnd:float)->float:
     return round(a + rnd * (b-a), 4)
@@ -174,9 +179,13 @@ def actualizar_campos(*args):
 ventana = tk.Tk()
 ventana.title("Generador de Distribuciones")
 
+# Definir la función de validación
+validacion = ventana.register(validar_numeros)
+
 # Crear widgets
 lbl_tamaño_muestra = tk.Label(ventana, text="Tamaño de muestra:")
-entry_tamaño_muestra = tk.Entry(ventana)
+entry_tamaño_muestra = tk.Entry(ventana, validate="key", validatecommand=(validacion, '%S'))
+
 lbl_intervalos = tk.Label(ventana, text="Número de intervalos:")
 combo_intervalos = ttk.Combobox(ventana, values=[5, 10, 15])
 
@@ -184,17 +193,17 @@ lbl_distribucion = tk.Label(ventana, text="Distribución:")
 combo_distribucion = ttk.Combobox(ventana, values=["Uniforme", "Exponencial", "Normal"], state="readonly")
 
 lbl_a = tk.Label(ventana, text="Valor de a:")
-entry_a = tk.Entry(ventana, state="disabled")
+entry_a = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
 lbl_b = tk.Label(ventana, text="Valor de b:")
-entry_b = tk.Entry(ventana, state="disabled")
+entry_b = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
 
 lbl_λ = tk.Label(ventana, text="Valor de λ:")
-entry_λ = tk.Entry(ventana, state="disabled")
+entry_λ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
 
 lbl_μ = tk.Label(ventana, text="Valor de μ:")
-entry_μ = tk.Entry(ventana, state="disabled")
+entry_μ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
 lbl_σ = tk.Label(ventana, text="Valor de σ:")
-entry_σ = tk.Entry(ventana, state="disabled")
+entry_σ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
 
 btn_generar = tk.Button(ventana, text="Generar Distribución", command=generar_distribucion)
 
