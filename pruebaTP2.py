@@ -18,17 +18,20 @@ def uniforme(a:int, b:int, rnd:float)->float:
 def exponencial(lamb:float, rnd:float)->float:
     return round((-1 / lamb) * math.log(1 - rnd), 4)
 
-def normal_convolucion(k:int, rnd:float)->float:
+def normal_convolucion(k:int)->float:
     x = 0
     for i in range(k):
-        x += rnd
+        x += random.random()
     return round((x - k/2) / math.sqrt(k/12), 4)
 
 
-def generar_numeros_aleatorios(n):
+def generar_numeros_aleatorios(n, exp=False):
     numeros_aleatorios = []
     for _ in range(n):
-        numero = random.random()
+        if exp:
+            numero = normal_convolucion(12)
+        else:
+            numero = random.random()
         #numero = random.uniform(0, 1)
         numeros_aleatorios.append(numero)
 
@@ -64,7 +67,7 @@ def generar_distribucion():
         print("EXPONENCIAL", datos)
 
     elif distribucion == "Normal":
-        rnd = generar_numeros_aleatorios(tamaño_muestra)
+        rnd = generar_numeros_aleatorios(tamaño_muestra, True)
         #rnd1 = generar_numeros_aleatorios(tamaño_muestra)
         #rnd2 = generar_numeros_aleatorios(tamaño_muestra)
 
@@ -79,8 +82,7 @@ def generar_distribucion():
         #    datos.append(round(N1, 4))
         #    datos.append(round(N2, 4))
         for i in rnd:
-            x = normal_convolucion(12, i)
-            datos.append(x)
+            datos.append(i)
         print("NORMAL", datos)
         datos_pdf = datos
     histograma_frecuencias(datos, intervalos)
