@@ -43,14 +43,14 @@ def generar_numeros_aleatorios(n, exp=False):
     #print("rnd", numeros_aleatorios)
     return numeros_aleatorios
 
-def generar_distribucion():
-    distribucion = combo_distribucion.get()
-    tamaño_muestra = int(entry_tamaño_muestra.get())
-    intervalos = int(combo_intervalos.get())
+def generar_distribucion(): #Esta función se encarga de generar la distribución de acuerdo a los parámetros ingresados por el usuario.
+    distribucion = combo_distribucion.get() #Busca el dato seleccionado en el combo (Uniforme, exponenecial, normal)
+    tamaño_muestra = int(entry_tamaño_muestra.get()) #Busca el dato tamaño de muestra solicitado y devuelve un entero
+    intervalos = int(combo_intervalos.get()) #Busca el dato cantidad de intervalos solicitado yb devuelve un entero
     global datos_pdf
     if distribucion == "Uniforme":
         rnd = generar_numeros_aleatorios(tamaño_muestra)
-        a = float(entry_a.get())
+        a = float(entry_a.get()) # Obtiene el valor ingresado por el usuario en un widget de entrada y lo combierte a float
         b = float(entry_b.get())
 
         datos = []
@@ -93,21 +93,26 @@ def generar_distribucion():
     histograma_frecuencias(datos, intervalos)
 
 
-def histograma_frecuencias(datos, intervalos):
+def histograma_frecuencias(datos, intervalos): # Define una función llamada histograma_frecuencias que calcula el histograma de frecuencias de los datos generados y muestra tanto el histograma como la tabla de frecuencias en una nueva ventana.
+    mostrar_datos(datos)
     mostrar_datos(datos)
     frecuencia, intervalo = np.histogram(datos, bins=intervalos)
 
+# Crear una nueva ventana para mostrar el histograma y la tabla de frecuencias
     ventana_resultados = tk.Toplevel(ventana)
     ventana_resultados.title("Resultados")
 
+# Mostrar el histograma
     fig, ax = plt.subplots()
     ax.hist(datos, bins=intervalos, edgecolor='black')
     ax.set_xlabel('Intervalos')
     ax.set_ylabel('Frecuencia')
     ax.set_title('Histograma de Frecuencias')
 
+# Mostrar los intervalos limitantes en el eje x
     ax.set_xticks(intervalo)
 
+# Mostrar la tabla de frecuencias
     tabla_frecuencias = "Tabla de frecuencias:\nIntervalo\tFrecuencia\n"
     for i in range(len(frecuencia)):
         tabla_frecuencias += f"{intervalo[i]:.2f} - {intervalo[i + 1]:.2f}\t{frecuencia[i]}\n"
@@ -118,22 +123,25 @@ def histograma_frecuencias(datos, intervalos):
 
     plt.show()
 
-def mostrar_datos(datos):
+def mostrar_datos(datos): # Define una función llamada mostrar_datos que muestra los datos generados en una nueva ventana.
     ventana_datos = tk.Toplevel(ventana)
     ventana_datos.title("Variables aleatorias según distribución")
 
     txt_datos = tk.Text(ventana_datos, height=40, width=50)
     txt_datos.pack()
 
+# Insertar los datos en el widget Text
     for dato in datos:
         txt_datos.insert(tk.END, f"{dato}\n")
 
+# Deshabilitar la edición del widget Text
     txt_datos.config(state=tk.DISABLED)
 
+# Botón para guardar los datos en un archivo
     btn_guardar = tk.Button(ventana_datos, text="Guardar", command=lambda: guardar_datos(datos))
     btn_guardar.pack()
 
-def guardar_datos(datos):
+def guardar_datos(datos): #Define una función llamada guardar_datos que permite al usuario guardar las variables generadas en un archivo.
     archivo_datos = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".txt")
     if archivo_datos is None:
         return
@@ -157,6 +165,7 @@ def guardar_datos_pdf(datos):
     archivo_pdf.close()
     messagebox.showinfo("Guardado", "Los datos se han guardado en formato PDF correctamente.")
 
+# Desabilita los campos de valores dependiendo que distribucion elija
 def actualizar_campos(*args):
     distribucion = combo_distribucion.get()
 
