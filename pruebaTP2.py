@@ -11,13 +11,28 @@ from reportlab.pdfgen import canvas
 
 datos_pdf = []
 
+def uniforme(a:int, b:int, rnd:float)->float:
+    return round(a + rnd * (b-a), 4)
+
+
+def exponencial(lamb:float, rnd:float)->float:
+    return round((-1 / lamb) * math.log(1 - rnd), 4)
+
+def normal_convolucion(k:int, rnd:float)->float:
+    x = 0
+    for i in range(k):
+        x += rnd
+    return round((x - k/2) / math.sqrt(k/12), 4)
+
+
 def generar_numeros_aleatorios(n):
     numeros_aleatorios = []
     for _ in range(n):
-        numero = np.around(random.random(), decimals=4)
+        numero = random.random()
+        #numero = random.uniform(0, 1)
         numeros_aleatorios.append(numero)
 
-    print("rnd", numeros_aleatorios)
+    #print("rnd", numeros_aleatorios)
     return numeros_aleatorios
 
 def generar_distribucion():
@@ -33,8 +48,8 @@ def generar_distribucion():
         datos = []
 
         for i in rnd:
-            x = np.around(a + i * (b - a), 4)
-            datos.append(round(x, 4))
+            x = uniforme(a, b, i)
+            datos.append(x)
         print("uniforme", datos)
 
     elif distribucion == "Exponencial":
@@ -44,24 +59,28 @@ def generar_distribucion():
         λ = float(entry_λ.get())
 
         for i in rnd:
-            x = (-1 / λ) * math.log((1 - i))
-            datos.append(round(x, 4))
+            x = exponencial(λ, i)
+            datos.append(x)
         print("EXPONENCIAL", datos)
 
     elif distribucion == "Normal":
-        rnd1 = generar_numeros_aleatorios(tamaño_muestra)
-        rnd2 = generar_numeros_aleatorios(tamaño_muestra)
+        rnd = generar_numeros_aleatorios(tamaño_muestra)
+        #rnd1 = generar_numeros_aleatorios(tamaño_muestra)
+        #rnd2 = generar_numeros_aleatorios(tamaño_muestra)
 
         datos = []
 
         μ = float(entry_μ.get())
         σ = float(entry_σ.get())
 
-        for i, j in zip(rnd1, rnd2):
-            N1 = math.sqrt(-2 * math.log(i)) * math.cos(2 * math.pi * j) * σ + μ
-            N2 = math.sqrt(-2 * math.log(i)) * math.sin(2 * math.pi * j) * σ + μ
-            datos.append(round(N1, 4))
-            datos.append(round(N2, 4))
+        #for i, j in zip(rnd1, rnd2):
+        #    N1 = math.sqrt(-2 * math.log(i)) * math.cos(2 * math.pi * j) * σ + μ
+        #    N2 = math.sqrt(-2 * math.log(i)) * math.sin(2 * math.pi * j) * σ + μ
+        #    datos.append(round(N1, 4))
+        #    datos.append(round(N2, 4))
+        for i in rnd:
+            x = normal_convolucion(12, i)
+            datos.append(x)
         print("NORMAL", datos)
         datos_pdf = datos
     histograma_frecuencias(datos, intervalos)
