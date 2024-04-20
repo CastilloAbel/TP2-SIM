@@ -23,7 +23,7 @@ def generar_numeros_aleatorios(n):
 def generar_distribucion():
     distribucion = combo_distribucion.get()
     tamaño_muestra = int(entry_tamaño_muestra.get())
-    intervalos = int(entry_intervalos.get())
+    intervalos = int(combo_intervalos.get())
     global datos_pdf
     if distribucion == "Uniforme":
         rnd = generar_numeros_aleatorios(tamaño_muestra)
@@ -157,10 +157,10 @@ ventana.title("Generador de Distribuciones")
 lbl_tamaño_muestra = tk.Label(ventana, text="Tamaño de muestra:")
 entry_tamaño_muestra = tk.Entry(ventana)
 lbl_intervalos = tk.Label(ventana, text="Número de intervalos:")
-entry_intervalos = tk.Entry(ventana)
+combo_intervalos = ttk.Combobox(ventana, values=[5, 10, 15])
 
 lbl_distribucion = tk.Label(ventana, text="Distribución:")
-combo_distribucion = ttk.Combobox(ventana, values=["Uniforme", "Exponencial", "Normal"])
+combo_distribucion = ttk.Combobox(ventana, values=["Uniforme", "Exponencial", "Normal"], state="readonly")
 
 lbl_a = tk.Label(ventana, text="Valor de a:")
 entry_a = tk.Entry(ventana, state="disabled")
@@ -184,7 +184,7 @@ combo_distribucion.bind("<<ComboboxSelected>>", actualizar_campos)
 lbl_tamaño_muestra.grid(row=0, column=0, padx=5, pady=5)
 entry_tamaño_muestra.grid(row=0, column=1, padx=5, pady=5)
 lbl_intervalos.grid(row=1, column=0, padx=5, pady=5)
-entry_intervalos.grid(row=1, column=1, padx=5, pady=5)
+combo_intervalos.grid(row=1, column=1, padx=5, pady=5)
 lbl_distribucion.grid(row=2, column=0, padx=5, pady=5)
 combo_distribucion.grid(row=2, column=1, padx=5, pady=5)
 
