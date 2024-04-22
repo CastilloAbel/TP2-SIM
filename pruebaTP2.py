@@ -48,50 +48,52 @@ def generar_distribucion(): #Esta función se encarga de generar la distribució
     tamaño_muestra = int(entry_tamaño_muestra.get()) #Busca el dato tamaño de muestra solicitado y devuelve un entero
     intervalos = int(combo_intervalos.get()) #Busca el dato cantidad de intervalos solicitado yb devuelve un entero
     global datos_pdf
-    if distribucion == "Uniforme":
-        rnd = generar_numeros_aleatorios(tamaño_muestra)
-        a = float(entry_a.get()) # Obtiene el valor ingresado por el usuario en un widget de entrada y lo combierte a float
-        b = float(entry_b.get())
+    if tamaño_muestra <= 1000000:
+        if distribucion == "Uniforme":
+            rnd = generar_numeros_aleatorios(tamaño_muestra)
+            a = float(entry_a.get()) # Obtiene el valor ingresado por el usuario en un widget de entrada y lo combierte a float
+            b = float(entry_b.get())
 
-        datos = []
+            datos = []
 
-        for i in rnd:
-            x = uniforme(a, b, i)
-            datos.append(x)
-        print("uniforme", datos)
+            for i in rnd:
+                x = uniforme(a, b, i)
+                datos.append(x)
+            print("uniforme", datos)
 
-    elif distribucion == "Exponencial":
-        rnd = generar_numeros_aleatorios(tamaño_muestra)
-        datos = []
+        elif distribucion == "Exponencial":
+            rnd = generar_numeros_aleatorios(tamaño_muestra)
+            datos = []
 
-        λ = float(entry_λ.get())
+            λ = float(entry_λ.get())
 
-        for i in rnd:
-            x = exponencial(λ, i)
-            datos.append(x)
-        print("EXPONENCIAL", datos)
+            for i in rnd:
+                x = exponencial(λ, i)
+                datos.append(x)
+            print("EXPONENCIAL", datos)
 
-    elif distribucion == "Normal":
-        rnd = generar_numeros_aleatorios(tamaño_muestra, True)
-        #rnd1 = generar_numeros_aleatorios(tamaño_muestra)
-        #rnd2 = generar_numeros_aleatorios(tamaño_muestra)
+        elif distribucion == "Normal":
+            rnd = generar_numeros_aleatorios(tamaño_muestra, True)
+            #rnd1 = generar_numeros_aleatorios(tamaño_muestra)
+            #rnd2 = generar_numeros_aleatorios(tamaño_muestra)
 
-        datos = []
+            datos = []
 
-        μ = float(entry_μ.get())
-        σ = float(entry_σ.get())
+            μ = float(entry_μ.get())
+            σ = float(entry_σ.get())
 
-        #for i, j in zip(rnd1, rnd2):
-        #    N1 = math.sqrt(-2 * math.log(i)) * math.cos(2 * math.pi * j) * σ + μ
-        #    N2 = math.sqrt(-2 * math.log(i)) * math.sin(2 * math.pi * j) * σ + μ
-        #    datos.append(round(N1, 4))
-        #    datos.append(round(N2, 4))
-        for i in rnd:
-            datos.append(i)
-        print("NORMAL", datos)
-        datos_pdf = datos
-    histograma_frecuencias(datos, intervalos)
-
+            #for i, j in zip(rnd1, rnd2):
+            #    N1 = math.sqrt(-2 * math.log(i)) * math.cos(2 * math.pi * j) * σ + μ
+            #    N2 = math.sqrt(-2 * math.log(i)) * math.sin(2 * math.pi * j) * σ + μ
+            #    datos.append(round(N1, 4))
+            #    datos.append(round(N2, 4))
+            for i in rnd:
+                datos.append(i)
+            print("NORMAL", datos)
+            datos_pdf = datos
+        histograma_frecuencias(datos, intervalos)
+    else:
+        messagebox.showinfo(title="Tamaño de muestra", message="Debe ingresar un tamaño de muestra menor a 1000000")
 
 def histograma_frecuencias(datos, intervalos): # Define una función llamada histograma_frecuencias que calcula el histograma de frecuencias de los datos generados y muestra tanto el histograma como la tabla de frecuencias en una nueva ventana.
     mostrar_datos(datos)
