@@ -98,7 +98,6 @@ def generar_distribucion(): #Esta función se encarga de generar la distribució
 
 def histograma_frecuencias(datos, intervalos): # Define una función llamada histograma_frecuencias que calcula el histograma de frecuencias de los datos generados y muestra tanto el histograma como la tabla de frecuencias en una nueva ventana.
     mostrar_datos(datos)
-    mostrar_datos(datos)
     frecuencia, intervalo = np.histogram(datos, bins=intervalos)
 
 # Crear una nueva ventana para mostrar el histograma y la tabla de frecuencias
