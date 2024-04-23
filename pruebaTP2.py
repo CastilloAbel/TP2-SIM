@@ -81,15 +81,13 @@ def generar_distribucion(): #Esta función se encarga de generar la distribució
 
             μ = float(entry_μ.get())
             σ = float(entry_σ.get())
-            rnd = generar_numeros_aleatorios(tamaño_muestra, True, μ, σ)
+            datos = generar_numeros_aleatorios(tamaño_muestra, True, μ, σ)
 
             #for i, j in zip(rnd1, rnd2):
             #    N1 = math.sqrt(-2 * math.log(i)) * math.cos(2 * math.pi * j) * σ + μ
             #    N2 = math.sqrt(-2 * math.log(i)) * math.sin(2 * math.pi * j) * σ + μ
             #    datos.append(round(N1, 4))
             #    datos.append(round(N2, 4))
-            for i in rnd:
-                datos.append(i)
             print("NORMAL", datos)
             datos_pdf = datos
         histograma_frecuencias(datos, intervalos)
