@@ -23,18 +23,18 @@ def uniforme(a:int, b:int, rnd:float)->float:
 def exponencial(lamb:float, rnd:float)->float:
     return round((-1 / lamb) * math.log(1 - rnd), 4)
 
-def normal_convolucion(k:int)->float:
+def normal_convolucion(k:int, media:float, desv:float)->float:
     x = 0
     for i in range(k):
         x += random.random()
-    return round((x - k/2) / math.sqrt(k/12), 4)
+    return round((((x - k/2) / math.sqrt(k/12)) * desv + media), 4)
 
 
-def generar_numeros_aleatorios(n, exp=False):
+def generar_numeros_aleatorios(n, exp=False, media=0, desv=1):
     numeros_aleatorios = []
     for _ in range(n):
         if exp:
-            numero = normal_convolucion(12)
+            numero = normal_convolucion(12, media, desv)
         else:
             numero = random.random()
         #numero = random.uniform(0, 1)
@@ -73,7 +73,7 @@ def generar_distribucion(): #Esta función se encarga de generar la distribució
             print("EXPONENCIAL", datos)
 
         elif distribucion == "Normal":
-            rnd = generar_numeros_aleatorios(tamaño_muestra, True)
+
             #rnd1 = generar_numeros_aleatorios(tamaño_muestra)
             #rnd2 = generar_numeros_aleatorios(tamaño_muestra)
 
@@ -81,6 +81,7 @@ def generar_distribucion(): #Esta función se encarga de generar la distribució
 
             μ = float(entry_μ.get())
             σ = float(entry_σ.get())
+            rnd = generar_numeros_aleatorios(tamaño_muestra, True, μ, σ)
 
             #for i, j in zip(rnd1, rnd2):
             #    N1 = math.sqrt(-2 * math.log(i)) * math.cos(2 * math.pi * j) * σ + μ
