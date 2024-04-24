@@ -13,11 +13,11 @@ import re
 datos_pdf = []
 
 
-def validar_numeros_uniforme(text):
+def validar_naturales(text):
     # Esta función permite solo la entrada de números (naturales o flotantes)
     return re.match(r'-?\d+\.?\d*', text) is not None
 
-def validar_numeros(text):
+def validar_enteros_flotantes(text):
     # Esta función permite solo la entrada de números (enteros o flotantes)
     return re.match(r'^[0-9]*\.?[0-9]*$', text) is not None
 
@@ -191,33 +191,33 @@ ventana = tk.Tk()
 ventana.title("Generador de Distribuciones")
 
 # Definir la función de validación para numeros positivos
-validacion = ventana.register(validar_numeros)
+validar_enteros_flotantes = ventana.register(validar_enteros_flotantes)
 
 # Definir la funcion de validación para numeros positivos y negativos
-validacion_naturales = ventana.register(validar_numeros_uniforme)
+validar_naturales = ventana.register(validar_naturales)
 
 # Crear widgets
 lbl_tamaño_muestra = tk.Label(ventana, text="Tamaño de muestra:")
-entry_tamaño_muestra = tk.Entry(ventana, validate="key", validatecommand=(validacion, '%S'))
+entry_tamaño_muestra = tk.Entry(ventana, validate="key", validatecommand=(validar_enteros_flotantes, '%S'))
 
 lbl_intervalos = tk.Label(ventana, text="Número de intervalos:")
-combo_intervalos = ttk.Combobox(ventana, values=[5, 10, 15], validate="key", validatecommand=(validacion, '%S'))
+combo_intervalos = ttk.Combobox(ventana, values=[5, 10, 15], validate="key", validatecommand=(validar_naturales, '%S'))
 
 lbl_distribucion = tk.Label(ventana, text="Distribución:")
 combo_distribucion = ttk.Combobox(ventana, values=["Uniforme", "Exponencial", "Normal"], state="readonly")
 
 lbl_a = tk.Label(ventana, text="Valor de a:")
-entry_a = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
+entry_a = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_naturales, '%S'))
 lbl_b = tk.Label(ventana, text="Valor de b:")
-entry_b = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
+entry_b = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_naturales, '%S'))
 
 lbl_λ = tk.Label(ventana, text="Valor de λ:")
-entry_λ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_numeros_uniforme, '%S'))
+entry_λ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_naturales, '%S'))
 
 lbl_μ = tk.Label(ventana, text="Valor de μ:")
-entry_μ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_numeros_uniforme, '%S'))
+entry_μ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_naturales, '%S'))
 lbl_σ = tk.Label(ventana, text="Valor de σ:")
-entry_σ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
+entry_σ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_enteros_flotantes, '%S'))
 
 btn_generar = tk.Button(ventana, text="Generar Distribución", command=generar_distribucion)
 
