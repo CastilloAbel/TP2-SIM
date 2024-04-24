@@ -43,7 +43,8 @@ def generar_numeros_aleatorios(n, exp=False, media=0, desv=1):
     #print("rnd", numeros_aleatorios)
     return numeros_aleatorios
 
-def generar_distribucion(): #Esta función se encarga de generar la distribución de acuerdo a los parámetros ingresados por el usuario.
+#Esta función se encarga de generar la distribución de acuerdo a los parámetros ingresados por el usuario.
+def generar_distribucion(): 
     distribucion = combo_distribucion.get() #Busca el dato seleccionado en el combo (Uniforme, exponenecial, normal)
     tamaño_muestra = int(entry_tamaño_muestra.get()) #Busca el dato tamaño de muestra solicitado y devuelve un entero
     intervalos = int(combo_intervalos.get()) #Busca el dato cantidad de intervalos solicitado yb devuelve un entero
