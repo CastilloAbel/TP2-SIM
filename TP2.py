@@ -119,7 +119,8 @@ def histograma_frecuencias(datos, intervalos): # Define una función llamada his
 
     plt.show()
 
-def mostrar_datos(datos): # Define una función llamada mostrar_datos que muestra los datos generados en una nueva ventana.
+# Define una función llamada mostrar_datos que muestra los datos generados en una nueva ventana.
+def mostrar_datos(datos): 
     ventana_datos = tk.Toplevel(ventana)
     ventana_datos.title("Variables aleatorias según distribución")
 
@@ -137,7 +138,8 @@ def mostrar_datos(datos): # Define una función llamada mostrar_datos que muestr
     btn_guardar = tk.Button(ventana_datos, text="Guardar", command=lambda: guardar_datos(datos))
     btn_guardar.pack()
 
-def guardar_datos(datos): #Define una función llamada guardar_datos que permite al usuario guardar las variables generadas en un archivo.
+#Define una función llamada guardar_datos que permite al usuario guardar las variables generadas en un archivo.
+def guardar_datos(datos): 
     archivo_datos = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".txt")
     if archivo_datos is None:
         return
