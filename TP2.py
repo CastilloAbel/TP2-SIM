@@ -49,7 +49,7 @@ def generar_distribucion():
     tamaño_muestra = int(entry_tamaño_muestra.get()) #Busca el dato tamaño de muestra solicitado y devuelve un entero
     intervalos = int(combo_intervalos.get()) #Busca el dato cantidad de intervalos solicitado yb devuelve un entero
     global datos_pdf
-    if tamaño_muestra <= 1000000:
+    if tamaño_muestra > 0 and tamaño_muestra <= 1000000:
         if distribucion == "Uniforme":
             rnd = generar_numeros_aleatorios(tamaño_muestra)
             a = float(entry_a.get()) # Obtiene el valor ingresado por el usuario en un widget de entrada y lo combierte a float
