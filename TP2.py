@@ -12,13 +12,17 @@ import re
 
 datos_pdf = []
 
+
+def validar_numeros_uniforme(text):
+    # Esta función permite solo la entrada de números (naturales o flotantes)
+    return re.match(r'-?\d+\.?\d*', text) is not None
+
 def validar_numeros(text):
     # Esta función permite solo la entrada de números (enteros o flotantes)
     return re.match(r'^[0-9]*\.?[0-9]*$', text) is not None
 
 def uniforme(a:int, b:int, rnd:float)->float:
     return round(a + rnd * (b-a), 4)
-
 
 def exponencial(lamb:float, rnd:float)->float:
     return round((-1 / lamb) * math.log(1 - rnd), 4)
@@ -186,15 +190,18 @@ def actualizar_campos(*args):
 ventana = tk.Tk()
 ventana.title("Generador de Distribuciones")
 
-# Definir la función de validación
+# Definir la función de validación para numeros positivos
 validacion = ventana.register(validar_numeros)
+
+# Definir la funcion de validación para numeros positivos y negativos
+validacion_naturales = ventana.register(validar_numeros_uniforme)
 
 # Crear widgets
 lbl_tamaño_muestra = tk.Label(ventana, text="Tamaño de muestra:")
 entry_tamaño_muestra = tk.Entry(ventana, validate="key", validatecommand=(validacion, '%S'))
 
 lbl_intervalos = tk.Label(ventana, text="Número de intervalos:")
-combo_intervalos = ttk.Combobox(ventana, values=[5, 10, 15])
+combo_intervalos = ttk.Combobox(ventana, values=[5, 10, 15], validate="key", validatecommand=(validacion, '%S'))
 
 lbl_distribucion = tk.Label(ventana, text="Distribución:")
 combo_distribucion = ttk.Combobox(ventana, values=["Uniforme", "Exponencial", "Normal"], state="readonly")
@@ -205,10 +212,10 @@ lbl_b = tk.Label(ventana, text="Valor de b:")
 entry_b = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
 
 lbl_λ = tk.Label(ventana, text="Valor de λ:")
-entry_λ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
+entry_λ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_numeros_uniforme, '%S'))
 
 lbl_μ = tk.Label(ventana, text="Valor de μ:")
-entry_μ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
+entry_μ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validar_numeros_uniforme, '%S'))
 lbl_σ = tk.Label(ventana, text="Valor de σ:")
 entry_σ = tk.Entry(ventana, state="disabled", validate="key", validatecommand=(validacion, '%S'))
 
